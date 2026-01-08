@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Phase 1 Complete{% endblock %}
+
+{% block body %}
+<div class="card">
+    <h1>✓ Phase 1 Complete!</h1>
+
+    <p>Thank you for completing the first phase of the study. You have successfully responded to all 10 scenarios.</p>
+
+    <p><strong>What's next:</strong> We've prepared the materials for Phase 2 based on your responses.</p>
+
+    <p>In Phase 2, you will evaluate different responses to moral scenarios. You will rate each response on two
+        dimensions:</p>
+
+    <ul>
+        <li><strong>Content:</strong> Whether the response reaches the same moral conclusion you would reach (ignoring
+            how it's written)</li>
+        <li><strong>Style:</strong> Whether the way the response reasons and justifies the decision resembles how you
+            would explain it (even if you agree or disagree with the conclusion)</li>
+    </ul>
+
+    <p style="margin-top: 30px;">
+        <a href="{{ path('survey_phase3') }}" class="btn">Continue to Phase 2</a>
+    </p>
+</div>
+{% endblock %}

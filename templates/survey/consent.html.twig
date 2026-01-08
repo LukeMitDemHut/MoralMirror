@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Informed Consent{% endblock %}
+
+{% block body %}
+<div class="card">
+    <h1>Informed Consent</h1>
+
+    <h2>Study Purpose</h2>
+    <p>This study investigates everyday behavioral decision-making patterns. Your participation will help researchers
+        understand how people reason about common social situations.</p>
+
+    <h2>Procedures</h2>
+    <p>If you agree to participate, you will:</p>
+    <ul style="margin: 15px 0 15px 30px;">
+        <li>Provide basic demographic information (nationality, age, gender)</li>
+        <li>Respond to 10 everyday moral scenarios with detailed explanations</li>
+        <li>Evaluate 10 different responses to similar scenarios</li>
+    </ul>
+
+    <h2>Data Collection and Privacy</h2>
+    <p>Your responses will be collected and may be processed using AI technology to support research analysis. All data
+        will be:</p>
+    <ul style="margin: 15px 0 15px 30px;">
+        <li>Stored anonymously with no personally identifiable information</li>
+        <li>Encrypted in transit and at rest</li>
+        <li>Used solely for research purposes</li>
+        <li>Kept confidential and secure</li>
+    </ul>
+
+    <h2>Risks and Benefits</h2>
+    <p>There are no anticipated risks beyond those encountered in everyday life. Some scenarios may prompt you to think
+        about moral dilemmas, which some participants may find thought-provoking.</p>
+
+    <h2>Voluntary Participation</h2>
+    <p>Your participation is completely voluntary. You may withdraw at any time without penalty.</p>
+
+    <h2>Contact Information</h2>
+    <p>If you have questions about this study, please contact the research team.</p>
+
+    <form method="post" action="{{ path('survey_consent') }}" style="margin-top: 30px;">
+        <div class="checkbox-group">
+            <label>
+                <input type="checkbox" name="consent" value="agree" required>
+                I have read and understood the information above. I agree to participate in this study and consent to
+                the processing of my anonymous responses using AI technology for research purposes.
+            </label>
+        </div>
+
+        <button type="submit" class="btn">I Agree - Continue to Study</button>
+        <a href="{{ path('home') }}" class="btn btn-secondary" style="margin-left: 10px;">I Do Not Agree - Exit</a>
+    </form>
+</div>
+
+<script>
+    // Check if participant has previously started the study
+    (function () {
+        const storedId = localStorage.getItem('moral_study_participant_id');
+        if (storedId && !window.location.search.includes('resume_id')) {
+            // Redirect to recovery endpoint
+            window.location.href = '{{ path('survey_start') }}?resume_id=' + encodeURIComponent(storedId);
+        }
+    })();
+</script>
+{% endblock %}

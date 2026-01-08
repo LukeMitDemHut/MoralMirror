@@ -1,0 +1,67 @@
+version: "3.8"
+
+# Production Docker Compose Configuration
+# Use this for production deployments
+# Usage: docker compose -f docker-compose.prod.yml up -d
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "${WEB_PORT:-8080}:80"
+    volumes:
+      - ./public:/var/www/html/public:ro
+      - ./var/cache:/var/www/html/var/cache
+      - ./var/log:/var/www/html/var/log
+    environment:
+      - APP_ENV=prod
+      - APP_DEBUG=0
+    depends_on:
+      - db
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-symfony}
+      MYSQL_USER: ${MYSQL_USER:-symfony}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: unless-stopped
+    networks:
+      - app-network
+    # Don't expose port in production, only internal access
+    # ports:
+    #   - "3306:3306"
+
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: php bin/console messenger:consume async --time-limit=3600 --memory-limit=128M
+    volumes:
+      - ./var/cache:/var/www/html/var/cache
+      - ./var/log:/var/www/html/var/log
+    environment:
+      - APP_ENV=prod
+      - APP_DEBUG=0
+    depends_on:
+      - db
+    deploy:
+      replicas: ${WORKER_REPLICAS:-5}
+    restart: unless-stopped
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  db_data:

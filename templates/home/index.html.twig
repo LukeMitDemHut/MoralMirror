@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Welcome - Moral Reasoning Survey{% endblock %}
+
+{% block body %}
+<div class="card">
+    <h1>Welcome to the Behavioral Decision-Making Study</h1>
+
+    <p>Thank you for your interest in participating in this research study.</p>
+
+    <p>This study examines how people make decisions in everyday moral situations. You will be asked to respond to
+        various scenarios and provide your reasoning for your choices.</p>
+
+    <h3>What to Expect:</h3>
+    <ul style="margin: 15px 0 15px 30px;">
+        <li>The study takes approximately 25-35 minutes to complete</li>
+        <li>You will respond to 10 everyday moral scenarios (Phase 1)</li>
+        <li>You will then evaluate 10 different responses (Phase 2)</li>
+        <li>All responses are anonymous and confidential</li>
+    </ul>
+
+    <p style="margin-top: 30px;">
+        <a href="{{ path('survey_start') }}" class="btn">Begin Study</a>
+    </p>
+</div>
+{% endblock %}
