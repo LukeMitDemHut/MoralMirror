@@ -1,0 +1,90 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Preparing Phase 2{% endblock %}
+
+{% block body %}
+<div class="card">
+    <h1>⏳ Processing Your Responses</h1>
+
+    <p>We're preparing the evaluation materials for Phase 2. This will only take a moment.</p>
+
+    <div style="margin: 30px 0;">
+        <div class="progress-container">
+            <div class="progress-bar" style="width: {{ (generated / expected * 100)|round }}%"></div>
+        </div>
+        <p class="progress-text">
+            Processing {{ generated }} of {{ expected }} items
+            {% if generated < expected %} <span class="loading-dots">...</span>
+                {% endif %}
+        </p>
+    </div>
+
+    {% if generated < expected %} <p><strong>Please wait while we finish preparing your materials.</strong></p>
+        <p style="font-size: 14px; color: #666;">This page will automatically refresh every 5 seconds.</p>
+        {% else %}
+        <p><strong>Ready!</strong> Click below to continue.</p>
+        {% endif %}
+
+        <div style="margin-top: 30px;">
+            {% if generated >= expected %}
+            <a href="{{ path('survey_phase3') }}" class="btn">Continue to Phase 2</a>
+            {% else %}
+            <button class="btn btn-secondary" disabled>Waiting for generation...</button>
+            {% endif %}
+        </div>
+</div>
+
+<style>
+    .progress-container {
+        width: 100%;
+        height: 30px;
+        background-color: #e0e0e0;
+        border-radius: 15px;
+        overflow: hidden;
+        margin-bottom: 10px;
+    }
+
+    .progress-bar {
+        height: 100%;
+        background: linear-gradient(90deg, #3498db, #2ecc71);
+        transition: width 0.5s ease;
+        border-radius: 15px;
+    }
+
+    .progress-text {
+        text-align: center;
+        font-weight: 500;
+        color: #2c3e50;
+    }
+
+    .loading-dots {
+        display: inline-block;
+        animation: blink 1.4s infinite;
+    }
+
+    @keyframes blink {
+
+        0%,
+        20% {
+            opacity: 0;
+        }
+
+        40% {
+            opacity: 1;
+        }
+
+        60%,
+        100% {
+            opacity: 0;
+        }
+    }
+</style>
+
+{% if generated < expected %} <script>
+    // Auto-refresh every 5 seconds until generation is complete
+    setTimeout(function() {
+    window.location.reload();
+    }, 5000);
+    </script>
+    {% endif %}
+    {% endblock %}

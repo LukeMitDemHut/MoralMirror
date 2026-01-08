@@ -250,6 +250,17 @@ class SurveyController extends AbstractController
         $evaluatedCount = $participant->getEvaluations()->count();
         $totalGenerations = $participant->getGenerations()->count();
 
+        // Check if we're still waiting for generations to be created
+        // Expected: 12 generations (6 few-shot, 6 zero-shot)
+        $expectedGenerations = 12;
+        if ($totalGenerations < $expectedGenerations) {
+            // Still generating, show waiting page
+            return $this->render('survey/phase3_generating.html.twig', [
+                'generated' => $totalGenerations,
+                'expected' => $expectedGenerations,
+            ]);
+        }
+
         if ($evaluatedCount >= $totalGenerations) {
             return $this->redirectToRoute('survey_complete');
         }
