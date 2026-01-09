@@ -167,6 +167,8 @@ SYSTEM;
                 $examplesSection .= "Situation: {$example['vignette']}\n";
                 $examplesSection .= "Response: {$example['response']}\n\n";
             }
+        } else {
+            $examplesSection = "\n**Few-Shot Examples:**\nNo prior examples provided (zero-shot scenario). Infer the individual's moral reasoning pattern based on the target situation alone and your own moral assessment.\n\n";
         }
 
         return <<<PROMPT
