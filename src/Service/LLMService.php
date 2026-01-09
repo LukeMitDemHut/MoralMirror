@@ -145,7 +145,7 @@ You must:
 
 You must not:
 - Reference ethical theories, moral frameworks, or philosophical concepts by name
-- Optimize for consensus morality or social desirability
+- Systematically exaggerate or minimize altruism, self-interest, empathy, or cynicism beyond what is directly supported by the individual's prior responses
 - Generalize to what most people would do or think
 - Explain multiple possible options or weigh alternatives explicitly
 - Introduce moral concepts or values not clearly implied by the examples
