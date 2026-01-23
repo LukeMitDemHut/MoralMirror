@@ -1,0 +1,36 @@
+services:
+  # default configuration for services in *this* file
+  _defaults:
+    autowire: true # Automatically injects dependencies in your services.
+    autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+  # makes classes in src/ available to be used as services
+  # this creates a service per class whose id is the fully-qualified class name
+  App\:
+    resource: "../src/"
+    exclude:
+      - "../src/Kernel.php"
+
+  # add more service definitions when explicit configuration is needed
+  # please note that last definitions always *replace* previous ones
+
+  # Validation LLM Service (fast model for quality checks)
+  App\Service\ValidationLLMService:
+    class: App\Service\LLMService
+    arguments:
+      $apiKey: "%env(VALIDATION_LLM_API_KEY)%"
+      $apiEndpoint: "%env(VALIDATION_LLM_API_ENDPOINT)%"
+      $model: "%env(VALIDATION_LLM_MODEL)%"
+
+  # Generation LLM Service (main model for personalized responses)
+  App\Service\GenerationLLMService:
+    class: App\Service\LLMService
+    arguments:
+      $apiKey: "%env(GENERATION_LLM_API_KEY)%"
+      $apiEndpoint: "%env(GENERATION_LLM_API_ENDPOINT)%"
+      $model: "%env(GENERATION_LLM_MODEL)%"
+
+  # Wire GenerationLLMService into SurveyService
+  App\Service\SurveyService:
+    arguments:
+      $generationLLMService: '@App\Service\GenerationLLMService'

@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Phase 1 - Response {{ progress }}/{{ total }}{% endblock %}
+
+{% block body %}
+<div class="card">
+    <div class="progress-text">Question {{ progress }} of {{ total }}</div>
+    <div class="progress-bar">
+        <div class="progress-fill" style="width: {{ (progress / total * 100) }}%"></div>
+    </div>
+
+    <h1>Your Response</h1>
+
+    <p>
+        Please read the following scenario carefully and provide your response in <strong>English</strong>.
+        Your answer should explain not only what you would do, but also <strong>why</strong> you would make that
+        decision.
+    </p>
+
+    <div class="vignette-box">
+        <p>{{ vignette.content }}</p>
+    </div>
+
+    <form method="post" action="{{ path('survey_phase1_submit') }}" data-progress="{{ progress }}">
+        <input type="hidden" name="vignette_id" value="{{ vignette.id }}">
+
+        <div class="form-group">
+            <label for="response">Your Response (50-100 words) *</label>
+            <p style="font-size: 14px; color: #7f8c8d; margin-bottom: 10px;">
+                Explain what you would do in this situation and try to explain your instinctive reasoning.
+            </p>
+            <textarea id="response" name="response" required placeholder="Type your response here..."
+                oninput="updateWordCount(this, 'word-count')">{{ previousResponse|default('') }}</textarea>
+            <div id="word-count" class="word-count">0 words</div>
+        </div>
+
+        <button type="submit" class="btn" id="submit-btn">Submit Response</button>
+    </form>
+</div>
+
+{% block javascripts %}
+{{ parent() }}
+<script>
+    (function () {
+        var textarea = document.getElementById('response');
+        if (textarea && textarea.value.trim()) {
+            updateWordCount(textarea, 'word-count');
+        }
+
+        var form = document.querySelector('form');
+        var submitBtn = document.getElementById('submit-btn');
+        var progressValue = parseInt(form.getAttribute('data-progress'));
+
+        form.addEventListener('submit', function (e) {
+            var response = document.getElementById('response').value.trim();
+            var words = response.split(/\s+/).filter(function (w) { return w.length > 0; });
+            var wordCount = words.length;
+
+            if (wordCount >= 50 && wordCount <= 100) {
+                var overlay = document.getElementById('loading-overlay');
+                var loadingText = document.getElementById('loading-text');
+
+                if (progressValue === 10) {
+                    loadingText.textContent = 'Generating personalized responses... This may take 1-2 minutes.';
+                } else {
+                    loadingText.textContent = 'Validating your response...';
+                }
+
+                overlay.classList.add('active');
+                submitBtn.disabled = true;
+            }
+        });
+    })();
+</script>
+{% endblock %}
+{% endblock %}

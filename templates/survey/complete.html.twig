@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Study Complete{% endblock %}
+
+{% block body %}
+<div class="card">
+    <h1>Study Complete!</h1>
+
+    <div class="alert alert-success">
+        Thank you for completing the study. Your participation is greatly appreciated!
+    </div>
+
+    <p>Your responses have been recorded anonymously under ID: <strong>{{ anonymousId }}</strong></p>
+
+    <h2>What This Study Was About</h2>
+    <p>This study investigated how large language models can generate individualized ethical assessments based on
+        minimal examples. Your responses in Phase 1 were used to create personalized simulations, which you then
+        evaluated in Phase 2.</p>
+
+    <p>The goal is to understand whether AI systems can accurately capture individual moral reasoning patterns, which
+        has implications for developing more personalized and ethically-aligned AI assistants.</p>
+
+    <h2>Next Steps</h2>
+    <p>Your anonymous data will be analyzed alongside other participants. If you have any questions about the study or
+        would like to learn about the results, please contact the research team.</p>
+
+    <p style="margin-top: 30px;">
+        <b>You can now close this window. Thank you for your participation!</b>
+    </p>
+</div>
+{% endblock %}
