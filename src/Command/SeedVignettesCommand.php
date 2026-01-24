@@ -26,6 +26,10 @@ class SeedVignettesCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
+        /*
+        *   Vignettes from
+        *   Singer, N., Kreuzpointner, L., Sommer, M., Wüst, S., & Kudielka, B. M. (2019). Decision-making in everyday moral conflict situations: Development and validation of a new measure. PLoS ONE, 14(4), e0214747. https://doi.org/10.1371/journal.pone.0214747
+        */
         $vignettes = [
             // Socially Close Protagonists
             ['content' => 'I buy concert tickets on the internet for my brother and myself. I can get two seats side by side. However, the tickets fall into two different price categories, so that one ticket is 10 € more expensive than the other.', 'altruisticResponse' => 'I take the more expensive ticket.', 'egoisticResponse' => 'I take the cheaper ticket.', 'itemDifficulty' => 0.61, 'realitySimilarity' => 4.03, 'set' => 'B', 'socialProximity' => 'close'],
